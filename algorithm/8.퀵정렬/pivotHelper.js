@@ -1,4 +1,4 @@
-// 피봇 helper 함수
+// 피벗 helper 함수
 function pivotHelper(arr, start = 0, end = arr.length + 1) {
   const swap = (arr, idx1, idx2) => {
     [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];

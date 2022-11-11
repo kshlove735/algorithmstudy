@@ -1,39 +1,24 @@
-// 합병 정렬
-// 정렬된 배열 두 개를 파라미터로 받는다.
-// 배열의 길이가 1 또는 0이 될때 까지 배열을 쪼갠다. Base Case : length < 1
-// 다 쪼개면 합병 함수를 이용해서 전체 배열 길이로 돌아갈 때까지 다시 합친다.
-// 다 합쳐지면 return
-function merge(arr1, arr2) {
-  let i = 0;
-  let j = 0;
-  let resultArr = [];
-  while (i < arr1.length && j < arr2.length) {
-    if (arr1[i] < arr2[j]) {
-      resultArr.push(arr1[i]);
-      i++;
-    } else {
-      resultArr.push(arr2[j]);
-      j++;
+// 피봇 helper 함수
+function pivotHelper(arr, start = 0, end = arr.length + 1) {
+  const swap = (arr, idx1, idx2) => {
+    [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
+  };
+
+  // 첫번째 index를 피벗 포인트 설정
+  let pivot = arr[start];
+  let swapIdx = start;
+
+  for (let i = start + 1; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      swapIdx++;
+      swap(arr, i, swapIdx);
     }
   }
-  while (i < arr1.length) {
-    resultArr.push(arr1[i]);
-    i++;
-  }
-  while (j < arr2.length) {
-    resultArr.push(arr2[j]);
-    j++;
-  }
 
-  return resultArr;
+  swap(arr, swapIdx, start);
+
+  console.log(arr);
+  return swapIdx;
 }
 
-function mergeSort(arr) {
-  if (arr.length <= 1) return arr;
-  let mid = Math.floor(arr.length / 2);
-  let left = mergeSort(arr.slice(0, mid));
-  let right = mergeSort(arr.slice(mid));
-  return merge(left, right);
-}
-
-console.log(mergeSort([10, 24, 76, 73]));
+console.log(pivotHelper([4, 8, 2, 1, 5, 7, 6, 3]));
