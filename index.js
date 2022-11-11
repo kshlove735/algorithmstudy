@@ -1,5 +1,5 @@
-// 피봇 helper 함수
-function pivotHelper(arr, start = 0, end = arr.length + 1) {
+// 피벗 helper 함수
+function pivot(arr, start = 0, end = arr.length + 1) {
   const swap = (arr, idx1, idx2) => {
     [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
   };
@@ -17,8 +17,19 @@ function pivotHelper(arr, start = 0, end = arr.length + 1) {
 
   swap(arr, swapIdx, start);
 
-  console.log(arr);
   return swapIdx;
 }
 
-console.log(pivotHelper([4, 8, 2, 1, 5, 7, 6, 3]));
+function quickSort(arr, left = 0, right = arr.length - 1) {
+  // Base Case
+  if (left < right) {
+    let pivotIndex = pivot(arr, left, right);
+    // left side
+    quickSort(arr, left, pivotIndex - 1);
+    // rigth side
+    quickSort(arr, pivotIndex + 1, right);
+  }
+  return arr;
+}
+
+console.log(quickSort([101, -3, 4, 8, 2, 1, 5, 7, 4, 6, 3]));
