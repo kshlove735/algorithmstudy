@@ -1,3 +1,5 @@
+const { toUnicode } = require("punycode");
+
 class Node {
   constructor(val) {
     this.val = val;
@@ -68,6 +70,31 @@ class SinglyLinkedList {
     }
     return current;
   }
+
+  // 맨 처음 node 제거
+  shift() {
+    if (!this.head) return undefined;
+
+    let currentHead = this.head;
+    this.head = currentHead.next;
+    this.length--;
+    if (this.length === 0) this.tail = null;
+    return currentHead;
+  }
+
+  // list 맨 앞에 node 추가
+  unshift(val) {
+    let newNode = new Node(val);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = this.head;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+    this.length++;
+    return this;
+  }
 }
 
 // let first = new Node("Hi");
@@ -79,10 +106,20 @@ class SinglyLinkedList {
 // console.dir(first, { depth: null });
 
 let list = new SinglyLinkedList();
-list.push("HELLO");
-list.push("GOODBYE");
-list.push("!");
-console.dir(list.pop(), { depth: null });
-console.dir(list.pop(), { depth: null });
-console.dir(list.pop(), { depth: null });
-console.dir(list, { depth: null });
+// list.push("HELLO");
+// list.push("GOODBYE");
+// list.push("!");
+// console.dir(list.pop(), { depth: null });
+// console.dir(list.pop(), { depth: null });
+// console.dir(list.pop(), { depth: null });
+// console.dir(list, { depth: null });
+// console.dir(list.shift(), { depth: null });
+// console.dir(list.shift(), { depth: null });
+// console.dir(list.shift(), { depth: null });
+// console.dir(list.shift(), { depth: null });
+// console.dir(list.push(100), { depth: null });
+// console.dir(list.push(1000), { depth: null });
+// console.dir(list.pop(), { depth: null });
+// console.dir(list.shift(), { depth: null });
+
+console.dir(list.unshift(99), { depth: null });
