@@ -1,5 +1,3 @@
-const { toUnicode } = require("punycode");
-
 class Node {
   constructor(val) {
     this.val = val;
@@ -95,8 +93,19 @@ class SinglyLinkedList {
     this.length++;
     return this;
   }
-}
 
+  // 원하는 위치에 있는 node 찾기
+  get(index) {
+    if (index < 0 || index >= this.length) return null;
+    let count = 0;
+    let current = this.head;
+    while (count !== index) {
+      current = current.next;
+      count++;
+    }
+    return current;
+  }
+}
 // let first = new Node("Hi");
 // first.next = new Node("there");
 // first.next.next = new Node("how");
@@ -109,6 +118,8 @@ let list = new SinglyLinkedList();
 list.push("HELLO");
 list.push("GOODBYE");
 list.push("!");
+list.push("<3");
+list.push(":)");
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.pop(), { depth: null });
@@ -122,4 +133,7 @@ list.push("!");
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.shift(), { depth: null });
 
-console.dir(list.unshift(99), { depth: null });
+// console.dir(list.unshift(99), { depth: null });
+
+console.dir(list.get(0), { depth: null });
+// console.dir(list, { depth: null });
