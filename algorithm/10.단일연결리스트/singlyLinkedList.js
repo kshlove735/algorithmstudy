@@ -135,5 +135,5 @@ list.push(":)");
 
 // console.dir(list.unshift(99), { depth: null });
 
-console.dir(list.get(0), { depth: null });
-// console.dir(list, { depth: null });
+console.dir(list.get(2), { depth: null });
+console.dir(list, { depth: null });
