@@ -106,9 +106,9 @@ class SinglyLinkedList {
 // console.dir(first, { depth: null });
 
 let list = new SinglyLinkedList();
-// list.push("HELLO");
-// list.push("GOODBYE");
-// list.push("!");
+list.push("HELLO");
+list.push("GOODBYE");
+list.push("!");
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.pop(), { depth: null });
