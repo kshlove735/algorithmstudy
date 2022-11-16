@@ -105,6 +105,20 @@ class SinglyLinkedList {
     }
     return current;
   }
+
+  // 원하는 위치에 값 변경
+  set(index, val) {
+    // 해당 위치에 있는 node 찾기
+    let foundNode = this.get(index);
+
+    // node를 찾으면 해당 node에 val 변경하고 return true
+    if (foundNode) {
+      foundNode.val = val;
+      return true;
+    }
+    // node를 찾을 수 없으면 return false
+    return false;
+  }
 }
 // let first = new Node("Hi");
 // first.next = new Node("there");
@@ -135,5 +149,6 @@ list.push(":)");
 
 // console.dir(list.unshift(99), { depth: null });
 
-console.dir(list.get(2), { depth: null });
+// console.dir(list.get(2), { depth: null });
+console.dir(list.set(5, "YES"), { depth: null });
 console.dir(list, { depth: null });
