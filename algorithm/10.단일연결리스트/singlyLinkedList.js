@@ -165,6 +165,15 @@ class SinglyLinkedList {
     // return 제거된 node
     return removedNode;
   }
+
+  // node 순서 역으로 연결
+  reverse() {
+    // swap head and tail
+    // next 변수 생성
+    // prev 변수 생성
+    // node(current) 변수 생성하고 head의 값으로 초기화
+    // 루프를 돌면서  next 변수에 next
+  }
 }
 // let first = new Node("Hi");
 // first.next = new Node("there");
