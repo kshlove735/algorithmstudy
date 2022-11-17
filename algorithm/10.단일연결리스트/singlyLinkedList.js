@@ -130,19 +130,40 @@ class SinglyLinkedList {
     if (index === 0) return !!this.unshift(val);
 
     // 그렇지 않으면 get() 메소드를 할용하여 index-1 위치의 node 찾아온다.
-    let prev = this.get(index - 1);
-    let temp = prev.next;
+    let prevNode = this.get(index - 1);
+    let temp = prevNode.next;
 
     // 새로운 node를 생성하여
     let newNode = new Node(val);
 
     // 이전 node.next에 추가할 node 연결
-    prev.next = newNode;
+    prevNode.next = newNode;
     // 추가한 node.next에 원래 해당 위치에 있었던 node 연결
     newNode.next = temp;
-    // length 1증가
+    // length 1 증가
     this.length++;
     return true;
+  }
+
+  // 원하는 위치에 node 제거
+  remove(index) {
+    // index가 0보다 작거나 length보다 크거나 같을 경우 return undeifined
+    if (index < 0 || index >= this.length) return undefined;
+    // index가 0 과 같다면 shift()
+    if (index === 0) return this.shift();
+    // index가 length-1 과 같다면 pop()
+    if (index === this.length - 1) return this.pop();
+
+    // 그렇지 않으면 get() 메소드 활용하여 index-1 위치의 node 찾아 온다
+    let prevNode = this.get(index - 1);
+    let removedNode = prevNode.next;
+    // index-1 node -> index node -> index next node
+    // index-1 node 의 next 에 index next node 연결
+    prevNode.next = removedNode.next;
+    // length 1 감소
+    this.length--;
+    // return 제거된 node
+    return removedNode;
   }
 }
 // let first = new Node("Hi");
@@ -175,6 +196,10 @@ list.push(":)");
 // console.dir(list.unshift(99), { depth: null });
 // console.dir(list.get(2), { depth: null });
 // console.dir(list.set(5, "YES"), { depth: null });
-console.dir(list.insert(5, 100), { depth: null });
-
+// console.dir(list.insert(5, 100), { depth: null });
+console.dir(list.remove(4), { depth: null });
+console.dir(list.remove(3), { depth: null });
+console.dir(list.remove(2), { depth: null });
+console.dir(list.remove(1), { depth: null });
+console.dir(list.remove(0), { depth: null });
 console.dir(list, { depth: null });
