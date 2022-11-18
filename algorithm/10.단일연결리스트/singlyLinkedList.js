@@ -175,9 +175,13 @@ class SinglyLinkedList {
     let next = null;
     let prev = null;
     for (let i = 0; i < this.length; i++) {
+      // 현재 node의 next를 next 변수에 저장
       next = node.next;
+      // 현재 node의 next를 이전 node와 연결
       node.next = prev;
+      // 현재 node를 prev 변수에 저장
       prev = node;
+      // 현재 node를 현재 node의 next로 저장
       node = next;
     }
     return this;
