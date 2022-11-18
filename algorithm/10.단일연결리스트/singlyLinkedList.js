@@ -169,10 +169,28 @@ class SinglyLinkedList {
   // node 순서 역으로 연결
   reverse() {
     // swap head and tail
-    // next 변수 생성
-    // prev 변수 생성
-    // node(current) 변수 생성하고 head의 값으로 초기화
-    // 루프를 돌면서  next 변수에 next
+    let node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+    let next = null;
+    let prev = null;
+    for (let i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
+    return this;
+  }
+
+  print() {
+    let arr = [];
+    let current = this.head;
+    while (current) {
+      arr.push(current.val);
+      current = current.next;
+    }
+    console.log(arr);
   }
 }
 // let first = new Node("Hi");
@@ -184,11 +202,11 @@ class SinglyLinkedList {
 // console.dir(first, { depth: null });
 
 let list = new SinglyLinkedList();
-list.push("HELLO");
-list.push("GOODBYE");
-list.push("!");
-list.push("<3");
-list.push(":)");
+list.push(100);
+list.push(200);
+list.push(300);
+list.push(400);
+list.push(500);
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.pop(), { depth: null });
@@ -206,9 +224,8 @@ list.push(":)");
 // console.dir(list.get(2), { depth: null });
 // console.dir(list.set(5, "YES"), { depth: null });
 // console.dir(list.insert(5, 100), { depth: null });
-console.dir(list.remove(4), { depth: null });
-console.dir(list.remove(3), { depth: null });
-console.dir(list.remove(2), { depth: null });
-console.dir(list.remove(1), { depth: null });
-console.dir(list.remove(0), { depth: null });
+// console.dir(list.remove(2), { depth: null });
+console.dir(list.print(), { depth: null });
+console.dir(list.reverse(), { depth: null });
+console.dir(list.print(), { depth: null });
 console.dir(list, { depth: null });
