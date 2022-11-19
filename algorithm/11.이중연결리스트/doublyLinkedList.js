@@ -59,11 +59,57 @@ class DoublyLinkedList {
     // return 제거된 node
     return removedNode;
   }
+
+  shift() {
+    // length 가 0 이면 return undifined
+    if (this.length === 0) return undefined;
+    // 현재 head를 변수에 저정
+    let oldHead = this.head;
+    // length 가 1 이면 head와 tail은 null
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      // head를 oldHead의 next로 설정
+      this.head = oldHead.next;
+      // head의 prev 연결 끊기
+      this.head.prev = null;
+      // oldHead의 next 연결 끊기
+      oldHead.next = null;
+    }
+    // length - 1
+    this.length--;
+    // 제거된 node return
+    return oldHead;
+  }
+
+  unshift(val) {
+    // 추가할 node 생성
+    let newNode = new Node(val);
+    // length 가 0 이면 head와 tail은 newNode
+    if (this.length === 0) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      // head의 prev를 newNode로 연결
+      this.head.prev = newNode;
+      // newNode의 next를 현재 head와 연결
+      newNode.next = this.head;
+      // head를 newNode로 설정
+      this.head = newNode;
+    }
+    // length + 1
+    this.length++;
+    return this;
+  }
 }
 
 let list = new DoublyLinkedList();
-list.push(20);
-// list.push(30);
-// console.dir(list.push(40), { depth: null });
-console.dir(list.pop(), { depth: null });
+// list.push(20);
+list.push(30);
+list.push(40);
+// console.dir(list.pop(), { depth: null });
+// console.dir(list.shift(), { depth: null });
+console.dir(list.unshift(10), { depth: null });
+
 console.dir(list, { depth: null });
