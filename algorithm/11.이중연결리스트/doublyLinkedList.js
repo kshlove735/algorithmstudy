@@ -102,14 +102,46 @@ class DoublyLinkedList {
     this.length++;
     return this;
   }
+
+  get(index) {
+    // index가 음수 이거나 length보다 크거나 같으면 return null
+    if (index < 0 || index >= this.length) return null;
+    let count, current;
+    // index가 length의 절반 보다 작거나 같으면
+    if (index <= this.length / 2) {
+      console.log("head 부터 탐색");
+      count = 0;
+      current = this.head;
+      // count와 index가 같지 않을 때 까지 loop
+      while (count != index) {
+        count++;
+        current = current.next;
+      }
+    } else {
+      console.log("tail 부터 탐색");
+      // 그렇지 않으면
+      count = this.length - 1;
+      current = this.tail;
+      // count와 index가 같지 않을 때 까지 loop
+      while (count != index) {
+        count--;
+        current = current.prev;
+      }
+    }
+    // 찾은 node return
+    return current;
+  }
 }
 
 let list = new DoublyLinkedList();
-// list.push(20);
+list.push(20);
 list.push(30);
 list.push(40);
+list.push(50);
+list.push(60);
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.shift(), { depth: null });
-console.dir(list.unshift(10), { depth: null });
+// console.dir(list.unshift(10), { depth: null });
+console.dir(list.get(6), { depth: null });
 
-console.dir(list, { depth: null });
+// console.dir(list, { depth: null });
