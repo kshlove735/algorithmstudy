@@ -122,4 +122,4 @@ let list = new SinglyLinkedList();
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.shift(), { depth: null });
 
-console.dir(list.unshift(99), { depth: null });
+// console.dir(list.unshift(99), { depth: null });
