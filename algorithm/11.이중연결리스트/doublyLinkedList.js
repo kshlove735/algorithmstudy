@@ -147,7 +147,7 @@ class DoublyLinkedList {
   }
 
   insert(index, val) {
-    // index가 음수 이거나 length보다 크거나 같으면 return false
+    // index가 음수 이거나 length보다 크면 return false
     if (index < 0 || index > this.length) return false;
     // index가 0이면, unshift();
     if (index === 0) return !!this.unshift(val);
@@ -159,6 +159,7 @@ class DoublyLinkedList {
     // node 연결
     let newNode = new Node(val);
     let afterNode = beforeNode.next;
+
     beforeNode.next = newNode;
     newNode.prev = beforeNode;
     newNode.next = afterNode;
@@ -167,6 +168,33 @@ class DoublyLinkedList {
     this.length++;
     // return true
     return true;
+  }
+
+  remove(index) {
+    // index가 음수 이거나 length보다 크거나 같으면 return undefined
+    if (index < 0 || index >= this.length) return undefined;
+    // index가 0이면, shift();
+    if (index === 0) return this.shift();
+    // index가 length-1와 같으면 , pop();
+    if (index === this.length - 1) return this.pop();
+
+    // 그렇지 않으면 get()로 제거할 node 찾기
+    let removedNode = this.get(index);
+    // removedNode의 prev와 next 연결
+    let beforeNode = removedNode.prev;
+    let afterNode = removedNode.next;
+    beforeNode.next = afterNode;
+    afterNode.prev = beforeNode;
+
+    // 제거할 node의 prev, next 를 null로 설정
+    removedNode.prev = null;
+    removedNode.next = null;
+
+    // length - 1
+    this.length--;
+
+    //  return 제거한 node
+    return removedNode;
   }
 }
 
@@ -181,5 +209,8 @@ list.push(40);
 // console.dir(list.unshift(10), { depth: null });
 // console.dir(list.get(5), { depth: null });
 // console.dir(list.set(1, 99), { depth: null });
-console.dir(list.insert(2, 99), { depth: null });
+// console.dir(list.insert(2, 99), { depth: null });
+console.dir(list.remove(2), { depth: null });
+console.dir(list.remove(1), { depth: null });
+console.dir(list.remove(0), { depth: null });
 console.dir(list, { depth: null });
