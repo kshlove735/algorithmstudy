@@ -109,7 +109,7 @@ class DoublyLinkedList {
     let count, current;
     // index가 length의 절반 보다 작거나 같으면
     if (index <= this.length / 2) {
-      console.log("head 부터 탐색");
+      // console.log("head 부터 탐색");
       count = 0;
       current = this.head;
       // count와 index가 같지 않을 때 까지 loop
@@ -118,7 +118,7 @@ class DoublyLinkedList {
         current = current.next;
       }
     } else {
-      console.log("tail 부터 탐색");
+      // console.log("tail 부터 탐색");
       // 그렇지 않으면
       count = this.length - 1;
       current = this.tail;
@@ -131,17 +131,55 @@ class DoublyLinkedList {
     // 찾은 node return
     return current;
   }
+
+  // 원하는 node의 value  변경
+  set(index, val) {
+    // get()로 node 찾아오기
+    let foundNode = this.get(index);
+
+    // node가 유효하면
+    if (foundNode) {
+      // value 수정
+      foundNode.val = val;
+      return true;
+    }
+    return false;
+  }
+
+  insert(index, val) {
+    // index가 음수 이거나 length보다 크거나 같으면 return false
+    if (index < 0 || index > this.length) return false;
+    // index가 0이면, unshift();
+    if (index === 0) return !!this.unshift(val);
+    // index가 length와 같으면 , push();
+    if (index === this.length) return !!this.push(val);
+
+    // 그렇지 않으면 get()로 삽입하려는 위치 바로 전(indxe - 1) node 찾아오기
+    let beforeNode = this.get(index - 1);
+    // node 연결
+    let newNode = new Node(val);
+    let afterNode = beforeNode.next;
+    beforeNode.next = newNode;
+    newNode.prev = beforeNode;
+    newNode.next = afterNode;
+    afterNode.prev = newNode;
+    // length + 1
+    this.length++;
+    // return true
+    return true;
+  }
 }
 
 let list = new DoublyLinkedList();
 list.push(20);
 list.push(30);
 list.push(40);
-list.push(50);
-list.push(60);
+// list.push(50);
+// list.push(60);
 // console.dir(list.pop(), { depth: null });
 // console.dir(list.shift(), { depth: null });
 // console.dir(list.unshift(10), { depth: null });
-console.dir(list.get(6), { depth: null });
-
-// console.dir(list, { depth: null });
+// console.dir(list.get(5), { depth: null });
+// console.dir(list.set(1, 99), { depth: null });
+console.dir(list.insert(2, 99), { depth: null });
+console.dir(list, { depth: null });
