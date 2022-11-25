@@ -1,125 +1,181 @@
-const { toUnicode } = require("punycode");
-
 class Node {
   constructor(val) {
     this.val = val;
     this.next = null;
+    this.prev = null;
   }
 }
 
-class SinglyLinkedList {
+class DoublyLinkedList {
   constructor() {
     this.head = null;
     this.tail = null;
     this.length = 0;
   }
-
-  // 마지막 node에 새로운 node 추가
   push(val) {
-    // 새로운 node 생성
     let newNode = new Node(val);
 
-    // head가 없으면 : 최초 등록 시
     if (!this.head) {
-      // head, tail 은 최초 node
       this.head = newNode;
-      this.tail = this.head;
+      this.tail = newNode;
     } else {
-      // 그다음 부터는 tail.next 추가된 node 가르키고, tail로 설정
       this.tail.next = newNode;
+      newNode.prev = this.tail;
       this.tail = newNode;
     }
     this.length++;
     return this;
   }
 
-  // traverse() {
-  //   let current = this.head;
-  //   while (current) {
-  //     console.log(current.val);
-  //     current = current.next;
-  //   }
-  // }
-
-  // 마지막 node(tail) 반환
-  pop() {
-    // node 가 없을 경우
-    if (!this.head) return undefined;
-
-    let current = this.head;
-    let newTail = current;
-
-    // tail전 node 까지 loop
-    while (current.next) {
-      // 현재 node newTail 설정
-      newTail = current;
-      // 다음 node 를 current로 설정하여 loop 돌게 한다
-      current = current.next;
-    }
-    // loop가 끝난 시점: newTail = 마자믹 node 전 node, current = tail
-
-    // 새로운 tail 설정
-    this.tail = newTail;
-    newTail.next = null;
-    this.length--;
-
-    // pop을 계속하다 length가 null 경우
-    if (this.length === 0) {
-      this.head = null;
-      this.tail = null;
-    }
-    return current;
-  }
-
-  // 맨 처음 node 제거
-  shift() {
-    if (!this.head) return undefined;
-
-    let currentHead = this.head;
-    this.head = currentHead.next;
-    this.length--;
-    if (this.length === 0) this.tail = null;
-    return currentHead;
-  }
-
-  // list 맨 앞에 node 추가
   unshift(val) {
     let newNode = new Node(val);
+
     if (!this.head) {
       this.head = newNode;
-      this.tail = this.head;
+      this.tail = newNode;
     } else {
+      this.head.prev = newNode;
       newNode.next = this.head;
       this.head = newNode;
     }
     this.length++;
     return this;
   }
+
+  shift() {
+    if (!this.head) return undefined;
+    let removedNode = this.head;
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      this.head = removedNode.next;
+      this.head.prev = null;
+      removedNode.next = null;
+      removedNode.prev = null;
+    }
+    this.length--;
+    return removedNode;
+  }
+
+  set(index, val) {
+    if (index < 0 || index >= this.length) return false;
+    if (index <= this.length / 2) {
+      let current = this.head;
+      let count = 0;
+
+      while (index > count) {
+        count++;
+        current = current.next;
+      }
+      current.val = val;
+    } else {
+      let current = this.tail;
+      let count = this.length - 1;
+      while (index < count) {
+        count--;
+        current = current.prev;
+      }
+      current.val = val;
+    }
+
+    return true;
+  }
+
+  remove(index) {
+    if (index < 0 || index >= this.length) return undefined;
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+    if (index <= this.length / 2) {
+      let current = this.head;
+      let prev = null;
+      let next = current.next;
+      let count = 0;
+
+      while (index > count) {
+        count++;
+        current = current.next;
+        prev = current.prev;
+        next = current.next;
+      }
+      prev.next = next;
+      next.prev = prev;
+      current.prev = null;
+      current.next = null;
+      this.length--;
+      return current;
+    } else {
+      let current = this.tail;
+      let prev = this.tail.prev;
+      let next = null;
+      let count = this.length - 1;
+      while (index < count) {
+        count--;
+        current = current.prev;
+        prev = current.prev;
+        next = current.next;
+      }
+      prev.next = next;
+      next.prev = prev;
+      current.prev = null;
+      current.next = null;
+      this.length--;
+      return current;
+    }
+  }
+
+  pop() {
+    if (!this.head) return undefined;
+    let removedNode = this.tail;
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      this.tail = removedNode.prev;
+      this.tail.next = null;
+    }
+
+    this.length--;
+    removedNode.prev = null;
+    return removedNode;
+  }
+
+  get(index) {
+    if (index < 0 || index >= this.length) return null;
+
+    if (index <= this.length / 2) {
+      let current = this.head;
+      let count = 0;
+
+      while (index > count) {
+        count++;
+        current = current.next;
+      }
+      return current;
+    } else {
+      let current = this.tail;
+      let count = this.length - 1;
+      while (index < count) {
+        count--;
+        current = current.prev;
+      }
+      return current;
+    }
+  }
 }
 
-// let first = new Node("Hi");
-// first.next = new Node("there");
-// first.next.next = new Node("how");
-// first.next.next.next = new Node("are");
-// first.next.next.next.next = new Node("you");
+var doublyLinkedList = new DoublyLinkedList();
+// doublyLinkedList.push(5);
+// doublyLinkedList.push(10);
+// doublyLinkedList.push(15);
+// doublyLinkedList.push(25);
 
-// console.dir(first, { depth: null });
+doublyLinkedList.push(5).push(10).push(15).push(20);
 
-let list = new SinglyLinkedList();
-// list.push("HELLO");
-// list.push("GOODBYE");
-// list.push("!");
-// console.dir(list.pop(), { depth: null });
-// console.dir(list.pop(), { depth: null });
-// console.dir(list.pop(), { depth: null });
-// console.dir(list, { depth: null });
-// console.dir(list.shift(), { depth: null });
-// console.dir(list.shift(), { depth: null });
-// console.dir(list.shift(), { depth: null });
-// console.dir(list.shift(), { depth: null });
-// console.dir(list.push(100), { depth: null });
-// console.dir(list.push(1000), { depth: null });
-// console.dir(list.pop(), { depth: null });
-// console.dir(list.shift(), { depth: null });
-
-// console.dir(list.unshift(99), { depth: null });
+console.dir(doublyLinkedList.get(3), { depth: null });
+// console.dir(doublyLinkedList.pop(), { depth: null });
+// console.dir(doublyLinkedList.pop(), { depth: null });
+// console.dir(doublyLinkedList.pop(), { depth: null });
+// console.dir(doublyLinkedList.pop(), { depth: null });
+console.log("--------------------");
+// console.dir(doublyLinkedList, { depth: null });
