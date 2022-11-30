@@ -5,14 +5,14 @@ class Node {
   }
 }
 
-class Stack {
+class Queue {
   constructor() {
     this.first = null;
     this.last = null;
     this.size = 0;
   }
 
-  push(val) {
+  enqueue(val) {
     let newNode = new Node(val);
     // first가 null 이면
     if (!this.first) {
@@ -20,16 +20,15 @@ class Stack {
       this.first = newNode;
       this.last = newNode;
     } else {
-      let temp = this.first;
-      this.first = newNode;
-      this.first.next = temp;
+      this.last.next = newNode;
+      this.last = newNode;
     }
 
     // 5. size++
     return ++this.size;
   }
 
-  pop() {
+  dequeue() {
     // size 0 이면 return undefined
     if (this.size === 0) return null;
 
@@ -44,11 +43,17 @@ class Stack {
   }
 }
 
-let stack = new Stack();
-console.dir(stack.push(10), { depth: null });
-console.dir(stack.push(20), { depth: null });
-console.dir(stack.push(30), { depth: null });
-console.dir(stack.pop(), { depth: null });
-console.dir(stack.pop(), { depth: null });
-console.dir(stack.pop(), { depth: null });
-console.dir(stack.pop(), { depth: null });
+let queue = new Queue();
+console.dir(queue.enqueue("FIRST"), { depth: null });
+console.dir(queue.enqueue("SECOND"), { depth: null });
+console.dir(queue.enqueue("THIRD"), { depth: null });
+console.log("----------------------------------------------");
+console.dir(queue, { depth: null });
+console.dir(queue.dequeue(), { depth: null });
+console.dir(queue.dequeue(), { depth: null });
+console.log("----------------------------------------------");
+console.dir(queue, { depth: null });
+console.dir(queue.dequeue(), { depth: null });
+console.log("----------------------------------------------");
+console.dir(queue, { depth: null });
+console.dir(queue.dequeue(), { depth: null });
