@@ -91,5 +91,5 @@ tree.insert(10);
 tree.insert(6);
 tree.insert(7);
 tree.insert(16);
-console.dir(tree.contains(12), { depth: null });
+console.dir(tree.contain(12), { depth: null });
 console.dir(tree.find(12), { depth: null });
