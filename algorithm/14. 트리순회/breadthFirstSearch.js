@@ -39,7 +39,7 @@ class BinarySearchTree {
     }
   }
 
-  breadthFirstSearch() {
+  BFS() {
     // 큐와 visited 변수 설정(배열)
     let queue = [];
     let data = [];
