@@ -78,6 +78,26 @@ class BinarySearchTree {
     // return data
     return data;
   }
+
+  DFSInOrder() {
+    // data 변수 생성 : 방문한 node의 value를 저장하기 위해
+    let data = [];
+    // currnt 변수 생성 및 this.root 저장
+    let current = this.root;
+    // 헬퍼 함수(traverse) 작성 : 파라미터 node
+    function traverse(node) {
+      // node.left가 있으면, 헬퍼 함수 호출 with node
+      if (node.left) traverse(node.left);
+      // data 변수에 파라미터 node.value의 값 push
+      data.push(node.value);
+      // node.right가 있으면, 헬퍼 함수 호출 with node
+      if (node.right) traverse(node.right);
+    }
+    // current  변수로 헬퍼 함수 호출
+    traverse(current);
+    // return data
+    return data;
+  }
 }
 
 let tree = new BinarySearchTree();
@@ -89,3 +109,4 @@ tree.insert(8);
 tree.insert(20);
 console.dir(tree.DFSPreOrder(), { depth: null }); // [ 10, 6, 3, 8, 15, 20 ]
 console.dir(tree.DFSPostOrder(), { depth: null }); // [ 3, 8, 6, 20, 15, 10 ]
+console.dir(tree.DFSInOrder(), { depth: null }); // [ 3, 6, 8, 10, 15, 20 ]
