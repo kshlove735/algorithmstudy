@@ -1,181 +1,109 @@
-class Node {
-  constructor(val) {
-    this.val = val;
-    this.next = null;
-    this.prev = null;
-  }
-}
-
-class DoublyLinkedList {
+class MaxBinaryHeap {
   constructor() {
-    this.head = null;
-    this.tail = null;
-    this.length = 0;
+    this.values = [];
   }
-  push(val) {
-    let newNode = new Node(val);
 
-    if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      this.tail.next = newNode;
-      newNode.prev = this.tail;
-      this.tail = newNode;
-    }
-    this.length++;
+  insert(value) {
+    // value를 values 배열 가장 뒤에 넣기
+    this.values.push(value);
+    this.bubbleUP();
+
     return this;
   }
 
-  unshift(val) {
-    let newNode = new Node(val);
+  bubbleUP() {
+    // values 배열의 맨 뒤 idx
+    let idx = this.values.length - 1;
+    // value 값 변수에 저장
+    let element = this.values[idx];
 
-    if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      this.head.prev = newNode;
-      newNode.next = this.head;
-      this.head = newNode;
-    }
-    this.length++;
-    return this;
-  }
-
-  shift() {
-    if (!this.head) return undefined;
-    let removedNode = this.head;
-    if (this.length === 1) {
-      this.head = null;
-      this.tail = null;
-    } else {
-      this.head = removedNode.next;
-      this.head.prev = null;
-      removedNode.next = null;
-      removedNode.prev = null;
-    }
-    this.length--;
-    return removedNode;
-  }
-
-  set(index, val) {
-    if (index < 0 || index >= this.length) return false;
-    if (index <= this.length / 2) {
-      let current = this.head;
-      let count = 0;
-
-      while (index > count) {
-        count++;
-        current = current.next;
-      }
-      current.val = val;
-    } else {
-      let current = this.tail;
-      let count = this.length - 1;
-      while (index < count) {
-        count--;
-        current = current.prev;
-      }
-      current.val = val;
-    }
-
-    return true;
-  }
-
-  remove(index) {
-    if (index < 0 || index >= this.length) return undefined;
-    if (index === 0) return this.shift();
-    if (index === this.length - 1) return this.pop();
-    if (index <= this.length / 2) {
-      let current = this.head;
-      let prev = null;
-      let next = current.next;
-      let count = 0;
-
-      while (index > count) {
-        count++;
-        current = current.next;
-        prev = current.prev;
-        next = current.next;
-      }
-      prev.next = next;
-      next.prev = prev;
-      current.prev = null;
-      current.next = null;
-      this.length--;
-      return current;
-    } else {
-      let current = this.tail;
-      let prev = this.tail.prev;
-      let next = null;
-      let count = this.length - 1;
-      while (index < count) {
-        count--;
-        current = current.prev;
-        prev = current.prev;
-        next = current.next;
-      }
-      prev.next = next;
-      next.prev = prev;
-      current.prev = null;
-      current.next = null;
-      this.length--;
-      return current;
+    // idx가 0일때 까지 loop
+    while (idx > 0) {
+      // 부모 idx 찾기
+      let parentIdx = Math.floor((idx - 1) / 2);
+      let parent = this.values[parentIdx];
+      // 부모의 value가 추가한 value 보다 크거나 같으면 break;
+      if (element <= parent) break;
+      // 부모의 value가 추가한 value 보다 작으면 swap
+      this.values[parentIdx] = element;
+      this.values[idx] = parent;
+      // idx를 부모 idx로 설정
+      idx = parentIdx;
     }
   }
 
-  pop() {
-    if (!this.head) return undefined;
-    let removedNode = this.tail;
-    if (this.length === 1) {
-      this.head = null;
-      this.tail = null;
-    } else {
-      this.tail = removedNode.prev;
-      this.tail.next = null;
+  extractMax() {
+    const max = this.values[0];
+    const end = this.values.pop();
+    if (this.values.length > 0) {
+      this.values[0] = end;
+      this.sinkDown();
     }
 
-    this.length--;
-    removedNode.prev = null;
-    return removedNode;
+    return max;
   }
 
-  get(index) {
-    if (index < 0 || index >= this.length) return null;
+  sinkDown() {
+    let parentIdx = 0;
+    const length = this.values.length;
+    const parent = this.values[0];
 
-    if (index <= this.length / 2) {
-      let current = this.head;
-      let count = 0;
+    while (true) {
+      let leftChildIdx = 2 * parentIdx + 1;
+      let rightChildIdx = 2 * parentIdx + 2;
+      let leftChild, rightChild;
+      let swap = null;
 
-      while (index > count) {
-        count++;
-        current = current.next;
+      if (leftChildIdx < length) {
+        leftChild = this.values[leftChildIdx];
+        if (leftChild > parent) {
+          swap = leftChildIdx;
+        }
       }
-      return current;
-    } else {
-      let current = this.tail;
-      let count = this.length - 1;
-      while (index < count) {
-        count--;
-        current = current.prev;
+
+      if (rightChildIdx < length) {
+        rightChild = this.values[rightChildIdx];
+        if ((swap === null && rightChild > parent) || (swap !== null && rightChild > leftChild)) {
+          swap = rightChildIdx;
+        }
       }
-      return current;
+
+      if (swap === null) break;
+      this.values[parentIdx] = this.values[swap];
+      this.values[swap] = parent;
+      parentIdx = swap;
     }
   }
 }
 
-var doublyLinkedList = new DoublyLinkedList();
-// doublyLinkedList.push(5);
-// doublyLinkedList.push(10);
-// doublyLinkedList.push(15);
-// doublyLinkedList.push(25);
+let heap = new MaxBinaryHeap();
 
-doublyLinkedList.push(5).push(10).push(15).push(20);
+heap.insert(41);
+heap.insert(39);
+heap.insert(33);
+heap.insert(18);
+heap.insert(27);
+heap.insert(12);
+heap.insert(55);
 
-console.dir(doublyLinkedList.get(3), { depth: null });
-// console.dir(doublyLinkedList.pop(), { depth: null });
-// console.dir(doublyLinkedList.pop(), { depth: null });
-// console.dir(doublyLinkedList.pop(), { depth: null });
-// console.dir(doublyLinkedList.pop(), { depth: null });
-console.log("--------------------");
-// console.dir(doublyLinkedList, { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+console.dir(heap.extractMax(), { depth: null });
+console.dir(heap, { depth: null });
+heap.insert(55);
+heap.insert(52);
+heap.insert(60);
+console.dir(heap, { depth: null });
